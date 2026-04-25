@@ -1,111 +1,198 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Portfolio</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f4f4f4;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thrinadh Reddy Portfolio</title>
 
-        .header {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 30px 0;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
 
-        .header img {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            border: 4px solid white;
-        }
+body {
+    background: #0f2027;
+    color: white;
+    overflow-x: hidden;
+}
 
-        .container {
-            width: 80%;
-            margin: auto;
-            margin-top: 20px;
-        }
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
 
-        .section {
-            background: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px #ccc;
-        }
+.header {
+    text-align: center;
+    padding: 50px 20px;
+}
 
-        h2 {
-            color: #333;
-        }
+.header img {
+    width: 150px;
+    border-radius: 50%;
+    border: 4px solid white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
 
-        ul {
-            padding-left: 20px;
-        }
-    </style>
+.header h1 {
+    margin-top: 15px;
+    font-size: 34px;
+}
+
+.header p {
+    color: #ccc;
+}
+
+.container {
+    width: 85%;
+    margin: auto;
+    perspective: 1000px;
+}
+
+.card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(12px);
+    margin: 25px 0;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.card:hover {
+    transform: rotateX(6deg) rotateY(6deg) scale(1.04);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+}
+
+h2 {
+    color: #00c6ff;
+    margin-bottom: 10px;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+.caption {
+    font-style: italic;
+    color: #aaa;
+    margin-top: 8px;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: #aaa;
+}
+</style>
 </head>
 
 <body>
 
-    <!-- Header -->
-    <div class="header">
-        <img src="https://via.placeholder.com/150" alt="Profile Photo">
-        <h1>Your Name</h1>
-        <p>Student | Aspiring Developer</p>
+<canvas id="rain"></canvas>
+
+<div class="header">
+    <img src="https://via.placeholder.com/150">
+    <h1>Thrinadh Reddy</h1>
+    <p>Aspiring Developer | Andhra University</p>
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <h2>About Me</h2>
+        <p>
+            I am Thrinadh Reddy, a passionate programmer skilled in Python,
+            C programming, and Data Structures. I enjoy solving problems and
+            building efficient solutions.
+        </p>
+        <p class="caption">"Consistency builds excellence."</p>
     </div>
 
-    <div class="container">
-
-        <!-- About -->
-        <div class="section">
-            <h2>About Me</h2>
-            <p>
-                I am a passionate student learning programming and web development.
-                I aim to build strong technical skills and create real-world projects.
-            </p>
-        </div>
-
-        <!-- Skills -->
-        <div class="section">
-            <h2>Skills</h2>
-            <ul>
-                <li>C Programming</li>
-                <li>Python</li>
-                <li>HTML & CSS</li>
-                <li>Data Structures</li>
-            </ul>
-        </div>
-
-        <!-- Certifications -->
-        <div class="section">
-            <h2>Certifications</h2>
-            <ul>
-                <li>Python Course – Coursera</li>
-                <li>Web Development – Udemy</li>
-                <li>Data Structures – NPTEL</li>
-            </ul>
-        </div>
-
-        <!-- Projects -->
-        <div class="section">
-            <h2>Projects</h2>
-            <ul>
-                <li>Portfolio Website</li>
-                <li>Student Management System (C)</li>
-                <li>Simple Calculator</li>
-            </ul>
-        </div>
-
-        <!-- Contact -->
-        <div class="section">
-            <h2>Contact</h2>
-            <p>Email: your@email.com</p>
-            <p>Phone: 1234567890</p>
-        </div>
-
+    <div class="card">
+        <h2>Education</h2>
+        <ul>
+            <li>10th CGPA: 9.8</li>
+            <li>Intermediate: 95%</li>
+            <li>Currently studying at Andhra University</li>
+        </ul>
     </div>
+
+    <div class="card">
+        <h2>Skills</h2>
+        <ul>
+            <li>Python Programming</li>
+            <li>C Programming</li>
+            <li>Data Structures & Algorithms</li>
+        </ul>
+        <p class="caption">"Strong fundamentals create powerful developers."</p>
+    </div>
+
+    <div class="card">
+        <h2>Projects</h2>
+        <ul>
+            <li>Portfolio Website</li>
+            <li>Basic Data Structure Implementations</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Contact</h2>
+        <p>Phone: 8019553107</p>
+        <p>Email: your@email.com</p>
+    </div>
+
+</div>
+
+<div class="footer">
+    <p>© 2026 Thrinadh Reddy</p>
+</div>
+
+<script>
+const canvas = document.getElementById("rain");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let rainDrops = [];
+
+for (let i = 0; i < 100; i++) {
+    rainDrops.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        length: Math.random() * 20 + 10,
+        speed: Math.random() * 5 + 5
+    });
+}
+
+function drawRain() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = "rgba(174,194,224,0.5)";
+    ctx.lineWidth = 1;
+
+    for (let i = 0; i < rainDrops.length; i++) {
+        let drop = rainDrops[i];
+        ctx.beginPath();
+        ctx.moveTo(drop.x, drop.y);
+        ctx.lineTo(drop.x, drop.y + drop.length);
+        ctx.stroke();
+
+        drop.y += drop.speed;
+
+        if (drop.y > canvas.height) {
+            drop.y = -20;
+            drop.x = Math.random() * canvas.width;
+        }
+    }
+}
+
+setInterval(drawRain, 30);
+</script>
 
 </body>
 </html>
