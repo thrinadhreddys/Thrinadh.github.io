@@ -1,123 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Thrinadh Reddy Portfolio</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
 }
 
-body {
-    background: #0f2027;
-    color: white;
-    overflow-x: hidden;
-    transition: 0.4s;
+body{
+    background:#0f2027;
+    color:white;
+    overflow-x:hidden;
 }
 
-/* LIGHT MODE */
-body.light {
-    background: #f5f5f5;
-    color: #111;
+#rain{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
 }
 
-/* Toggle Button */
-.toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #00c6ff;
-    padding: 10px 15px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
-    z-index: 999;
+/* REALISTIC CURTAIN */
+.curtain{
+    position:fixed;
+    width:100%;
+    height:100%;
+    z-index:9999;
+    display:flex;
 }
 
-/* Header */
-.header {
-    text-align: center;
-    padding: 60px 20px;
+.curtain-left,.curtain-right{
+    width:50%;
+    height:100%;
+    background:linear-gradient(135deg,#ff4fa3,#ff77c6,#ff4fa3);
+    box-shadow:inset 0 0 50px rgba(0,0,0,0.4);
+    position:relative;
+    transition:1.2s cubic-bezier(.77,0,.18,1);
 }
 
-/* GLOW PROFILE */
-.profile-pic {
-    width: 160px;
-    height: 160px;
-    object-fit: cover;
-    object-position: center 20%;
-    border-radius: 50%;
-    border: 4px solid white;
-    animation: glow 2s infinite alternate;
+.curtain-left::before,.curtain-right::before{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:repeating-linear-gradient(
+        90deg,
+        rgba(0,0,0,0.15),
+        rgba(0,0,0,0.15) 10px,
+        rgba(255,255,255,0.08) 20px
+    );
+    mix-blend-mode:multiply;
 }
 
-@keyframes glow {
-    from { box-shadow: 0 0 10px #00c6ff; }
-    to { box-shadow: 0 0 30px #00c6ff, 0 0 60px #00c6ff; }
+.curtain-content{
+    position:absolute;
+    width:100%;
+    text-align:center;
+    top:40%;
+    z-index:2;
 }
 
-h1 {
-    margin-top: 15px;
-    font-size: 34px;
+.curtain button{
+    margin-top:15px;
+    padding:12px 20px;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+    font-size:16px;
+    background:white;
 }
 
-/* Container */
-.container {
-    width: 85%;
-    margin: auto;
+.curtain.open .curtain-left{
+    transform:translateX(-100%);
 }
 
-/* Cards */
-.card {
-    background: rgba(255,255,255,0.1);
-    margin: 25px 0;
-    padding: 25px;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    transition: 0.3s;
+.curtain.open .curtain-right{
+    transform:translateX(100%);
 }
 
-.card:hover {
-    transform: scale(1.03);
+.toggle{
+    position:fixed;
+    top:20px;
+    right:20px;
+    background:#00c6ff;
+    padding:10px 15px;
+    border-radius:20px;
+    cursor:pointer;
+    z-index:999;
 }
 
-h2 {
-    color: #00c6ff;
-    margin-bottom: 10px;
+.header{
+    text-align:center;
+    padding:60px 20px;
 }
 
-/* Resume Button */
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #00c6ff;
-    border-radius: 20px;
-    color: white;
-    text-decoration: none;
-    margin-top: 10px;
+.profile-pic{
+    width:160px;
+    height:160px;
+    object-fit:cover;
+    border-radius:50%;
+    border:4px solid white;
+    animation:glow 2s infinite alternate;
 }
 
-/* Footer */
-.footer {
-    text-align: center;
-    padding: 20px;
-    color: #aaa;
+@keyframes glow{
+    from{box-shadow:0 0 10px #00c6ff;}
+    to{box-shadow:0 0 30px #00c6ff,0 0 60px #00c6ff;}
 }
+
+h1{margin-top:15px;font-size:34px;}
+
+.container{width:85%;margin:auto;}
+
+.card{
+    background:rgba(255,255,255,0.1);
+    margin:25px 0;
+    padding:25px;
+    border-radius:15px;
+    backdrop-filter:blur(10px);
+    transition:0.3s;
+}
+
+.card:hover{transform:scale(1.03);}
+
+h2{color:#00c6ff;margin-bottom:10px;}
+
+.btn{
+    display:inline-block;
+    padding:10px 20px;
+    background:#00c6ff;
+    border-radius:20px;
+    color:white;
+    text-decoration:none;
+    margin-top:10px;
+}
+
+.footer{
+    text-align:center;
+    padding:20px;
+    color:#aaa;
+}
+
+body.light{background:#f5f5f5;color:#111;}
+
 </style>
 </head>
 
 <body>
 
+<canvas id="rain"></canvas>
+
+<div class="curtain" id="curtain">
+    <div class="curtain-left"></div>
+    <div class="curtain-right"></div>
+    <div class="curtain-content">
+        <h1>🎭 Welcome</h1>
+        <p>Click to Open Portfolio</p>
+        <button onclick="openCurtain()">Open Curtain</button>
+    </div>
+</div>
+
 <div class="toggle" onclick="toggleMode()">🌙 Toggle Mode</div>
 
 <div class="header">
-    <!-- Save your image as profile.jpg -->
-    <img src="profile.jpg" class="profile-pic">
+    <img src="profile.jpg" onerror="this.src='https://via.placeholder.com/160'" class="profile-pic">
     <h1 id="typing"></h1>
     <p>Aspiring Developer | Anurag University</p>
 </div>
@@ -125,57 +179,75 @@ h2 {
 <div class="container">
 
 <div class="card">
-    <h2>About Me</h2>
-    <p>I am a passionate B.Tech student interested in software development and web design.</p>
+<h2>About Me</h2>
+<p>I am a passionate B.Tech student interested in software development and web design.</p>
 </div>
 
 <div class="card">
-    <h2>Skills</h2>
-    <ul>
-        <li>Python</li>
-        <li>C Programming</li>
-        <li>Data Structures</li>
-        <li>Web Development</li>
-    </ul>
+<h2>Skills</h2>
+<ul>
+<li>Python</li>
+<li>C Programming</li>
+<li>Data Structures</li>
+<li>Web Development</li>
+</ul>
 </div>
 
 <div class="card">
-    <h2>Resume</h2>
-    <!-- Add your resume file -->
-    <a href="resume.pdf" download class="btn">Download Resume</a>
+<h2>Resume</h2>
+<a href="resume.pdf" download class="btn">Download Resume</a>
 </div>
 
 <div class="card">
-    <h2>Projects</h2>
-    <ul>
-        <li>Portfolio Website – HTML, CSS, JS</li>
-    </ul>
+<h2>Projects</h2>
+<ul>
+<li>Portfolio Website – HTML, CSS, JS</li>
+</ul>
 </div>
 
 </div>
 
-<div class="footer">
-<p>© 2026 Thrinadh Reddy</p>
-</div>
+<div class="footer">© 2026 Thrinadh Reddy</div>
 
 <script>
 
-/* Typing Effect */
+function openCurtain(){
+    document.getElementById('curtain').classList.add('open');
+}
+
 const text = "Thrinadh Reddy";
-let i = 0;
-function type() {
-    if (i < text.length) {
+let i=0;
+function type(){
+    if(i<text.length){
         document.getElementById("typing").innerHTML += text.charAt(i);
         i++;
-        setTimeout(type, 100);
+        setTimeout(type,100);
     }
 }
 type();
 
-/* Dark/Light Mode */
-function toggleMode() {
+function toggleMode(){
     document.body.classList.toggle("light");
 }
+
+const canvas=document.getElementById("rain");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let drops=[];
+for(let x=0;x<200;x++) drops[x]=Math.random()*canvas.height;
+
+function drawRain(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="rgba(174,194,224,0.5)";
+    for(let i=0;i<drops.length;i++){
+        ctx.fillRect(i*10,drops[i],2,10);
+        drops[i]+=6;
+        if(drops[i]>canvas.height) drops[i]=0;
+    }
+}
+setInterval(drawRain,30);
 
 </script>
 
