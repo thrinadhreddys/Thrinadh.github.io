@@ -11,99 +11,79 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', sans-serif;
-    cursor: none;
 }
 
 body {
     background: #0f2027;
     color: white;
     overflow-x: hidden;
+    transition: 0.4s;
 }
 
-/* Custom Cursor */
-.cursor {
-    width: 15px;
-    height: 15px;
-    background: #00c6ff;
-    border-radius: 50%;
+/* LIGHT MODE */
+body.light {
+    background: #f5f5f5;
+    color: #111;
+}
+
+/* Toggle Button */
+.toggle {
     position: fixed;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
+    top: 20px;
+    right: 20px;
+    background: #00c6ff;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
     z-index: 999;
 }
 
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-}
-
-/* Curtain */
-.curtain {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, #000428, #004e92);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-.curtain.open {
-    animation: openCurtain 1.5s forwards;
-}
-
-@keyframes openCurtain {
-    0% {transform: scaleX(1);} 
-    100% {transform: scaleX(0); opacity:0;}
-}
-
+/* Header */
 .header {
     text-align: center;
-    padding: 50px 20px;
+    padding: 60px 20px;
 }
 
-.header img {
-    width: 150px;
-    height: 150px;
+/* GLOW PROFILE */
+.profile-pic {
+    width: 160px;
+    height: 160px;
     object-fit: cover;
+    object-position: center 20%;
     border-radius: 50%;
     border: 4px solid white;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    animation: glow 2s infinite alternate;
 }
 
-.header h1 {
+@keyframes glow {
+    from { box-shadow: 0 0 10px #00c6ff; }
+    to { box-shadow: 0 0 30px #00c6ff, 0 0 60px #00c6ff; }
+}
+
+h1 {
     margin-top: 15px;
     font-size: 34px;
 }
 
-.header p {
-    color: #ccc;
-}
-
+/* Container */
 .container {
     width: 85%;
     margin: auto;
-    perspective: 1000px;
 }
 
+/* Cards */
 .card {
     background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(12px);
     margin: 25px 0;
     padding: 25px;
     border-radius: 15px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-    transition: transform 0.4s, box-shadow 0.4s;
+    backdrop-filter: blur(10px);
+    transition: 0.3s;
 }
 
 .card:hover {
-    transform: rotateX(6deg) rotateY(6deg) scale(1.04);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+    transform: scale(1.03);
 }
 
 h2 {
@@ -111,23 +91,18 @@ h2 {
     margin-bottom: 10px;
 }
 
-ul {
-    padding-left: 20px;
-}
-
-.caption {
-    font-style: italic;
-    color: #aaa;
-    margin-top: 8px;
-}
-
-.social a {
+/* Resume Button */
+.btn {
     display: inline-block;
-    margin: 10px;
-    color: #00c6ff;
+    padding: 10px 20px;
+    background: #00c6ff;
+    border-radius: 20px;
+    color: white;
     text-decoration: none;
+    margin-top: 10px;
 }
 
+/* Footer */
 .footer {
     text-align: center;
     padding: 20px;
@@ -138,15 +113,12 @@ ul {
 
 <body>
 
-<div class="cursor" id="cursor"></div>
-
-<div class="curtain" id="curtain">Click to Enter</div>
-
-<canvas id="rain"></canvas>
+<div class="toggle" onclick="toggleMode()">🌙 Toggle Mode</div>
 
 <div class="header">
-    <img src="myphoto.jpg" alt="Profile Photo">
-    <h1>Thrinadh Reddy</h1>
+    <!-- Save your image as profile.jpg -->
+    <img src="profile.jpg" class="profile-pic">
+    <h1 id="typing"></h1>
     <p>Aspiring Developer | Anurag University</p>
 </div>
 
@@ -154,21 +126,30 @@ ul {
 
 <div class="card">
     <h2>About Me</h2>
-    <p>I am Thrinadh Reddy, a passionate programmer skilled in Python, C programming, and Data Structures.</p>
+    <p>I am a passionate B.Tech student interested in software development and web design.</p>
 </div>
 
 <div class="card">
-    <h2>Social Links</h2>
-    <div class="social">
-        <a href="https://instagram.com/thrinadh_reddy_challa" target="_blank">Instagram</a>
-        <a href="#" target="_blank">LinkedIn</a>
-    </div>
+    <h2>Skills</h2>
+    <ul>
+        <li>Python</li>
+        <li>C Programming</li>
+        <li>Data Structures</li>
+        <li>Web Development</li>
+    </ul>
 </div>
 
 <div class="card">
-    <h2>Contact</h2>
-    <p>Phone: 8019553107</p>
-    <p>Email: thrinadhreddy299@email.com</p>
+    <h2>Resume</h2>
+    <!-- Add your resume file -->
+    <a href="resume.pdf" download class="btn">Download Resume</a>
+</div>
+
+<div class="card">
+    <h2>Projects</h2>
+    <ul>
+        <li>Portfolio Website – HTML, CSS, JS</li>
+    </ul>
 </div>
 
 </div>
@@ -179,59 +160,24 @@ ul {
 
 <script>
 
-/* Curtain */
-document.getElementById("curtain").onclick = function() {
-    this.classList.add("open");
-};
-
-/* Custom Cursor */
-const cursor = document.getElementById("cursor");
-document.addEventListener("mousemove", e => {
-    cursor.style.top = e.clientY + "px";
-    cursor.style.left = e.clientX + "px";
-});
-
-/* Rain */
-const canvas = document.getElementById("rain");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let rainDrops = [];
-for (let i = 0; i < 100; i++) {
-    rainDrops.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        length: Math.random() * 20 + 10,
-        speed: Math.random() * 5 + 5
-    });
-}
-
-function drawRain() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = "rgba(174,194,224,0.5)";
-    ctx.lineWidth = 1;
-
-    for (let i = 0; i < rainDrops.length; i++) {
-        let drop = rainDrops[i];
-        ctx.beginPath();
-        ctx.moveTo(drop.x, drop.y);
-        ctx.lineTo(drop.x, drop.y + drop.length);
-        ctx.stroke();
-
-        drop.y += drop.speed;
-
-        if (drop.y > canvas.height) {
-            drop.y = -20;
-            drop.x = Math.random() * canvas.width;
-        }
+/* Typing Effect */
+const text = "Thrinadh Reddy";
+let i = 0;
+function type() {
+    if (i < text.length) {
+        document.getElementById("typing").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(type, 100);
     }
 }
+type();
 
-setInterval(drawRain, 30);
+/* Dark/Light Mode */
+function toggleMode() {
+    document.body.classList.toggle("light");
+}
 
 </script>
 
 </body>
 </html>
-
