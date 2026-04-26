@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,37 +29,28 @@ body{
     z-index:-1;
 }
 
-/* REALISTIC CURTAIN */
+/* CURTAIN */
 .curtain{
     position:fixed;
     width:100%;
     height:100%;
-    z-index:9999;
     display:flex;
+    z-index:9999;
 }
 
-.curtain.open .curtain-content{
-    opacity:0;
-    pointer-events:none;
-    transition:0.6s ease;
-}
-    position:fixed;
-    width:100%;
-    height:100%;
-    z-index:9999;
-    display:flex;
-}
-
-.curtain-left,.curtain-right{
+.curtain-left,
+.curtain-right{
     width:50%;
     height:100%;
     background:linear-gradient(135deg,#ff4fa3,#ff77c6,#ff4fa3);
     box-shadow:inset 0 0 50px rgba(0,0,0,0.4);
+    transition:0.3s;
     position:relative;
-    transition:1.2s cubic-bezier(.77,0,.18,1);
 }
 
-.curtain-left::before,.curtain-right::before{
+/* curtain texture */
+.curtain-left::before,
+.curtain-right::before{
     content:"";
     position:absolute;
     width:100%;
@@ -69,7 +61,6 @@ body{
         rgba(0,0,0,0.15) 10px,
         rgba(255,255,255,0.08) 20px
     );
-    mix-blend-mode:multiply;
 }
 
 .curtain-content{
@@ -78,25 +69,22 @@ body{
     text-align:center;
     top:40%;
     z-index:2;
+    transition:0.5s;
 }
 
-.curtain button{
-    margin-top:15px;
-    padding:12px 20px;
-    border:none;
-    border-radius:25px;
-    cursor:pointer;
-    font-size:16px;
-    background:white;
+.handle{
+    position:absolute;
+    width:20px;
+    height:80px;
+    background:#fff;
+    border-radius:10px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:grab;
 }
 
-.curtain.open .curtain-left{
-    transform:translateX(-100%);
-}
-
-.curtain.open .curtain-right{
-    transform:translateX(100%);
-}
+.left-handle{ right:10px; }
+.right-handle{ left:10px; }
 
 .toggle{
     position:fixed;
@@ -117,20 +105,14 @@ body{
 .profile-pic{
     width:160px;
     height:160px;
-    object-fit:cover;
     border-radius:50%;
     border:4px solid white;
-    animation:glow 2s infinite alternate;
 }
 
-@keyframes glow{
-    from{box-shadow:0 0 10px #00c6ff;}
-    to{box-shadow:0 0 30px #00c6ff,0 0 60px #00c6ff;}
+.container{
+    width:85%;
+    margin:auto;
 }
-
-h1{margin-top:15px;font-size:34px;}
-
-.container{width:85%;margin:auto;}
 
 .card{
     background:rgba(255,255,255,0.1);
@@ -138,12 +120,9 @@ h1{margin-top:15px;font-size:34px;}
     padding:25px;
     border-radius:15px;
     backdrop-filter:blur(10px);
-    transition:0.3s;
 }
 
-.card:hover{transform:scale(1.03);}
-
-h2{color:#00c6ff;margin-bottom:10px;}
+h2{color:#00c6ff;}
 
 .btn{
     display:inline-block;
@@ -152,16 +131,7 @@ h2{color:#00c6ff;margin-bottom:10px;}
     border-radius:20px;
     color:white;
     text-decoration:none;
-    margin-top:10px;
 }
-
-.footer{
-    text-align:center;
-    padding:20px;
-    color:#aaa;
-}
-
-body.light{background:#f5f5f5;color:#111;}
 
 </style>
 </head>
@@ -170,13 +140,18 @@ body.light{background:#f5f5f5;color:#111;}
 
 <canvas id="rain"></canvas>
 
+<!-- CURTAIN -->
 <div class="curtain" id="curtain">
-    <div class="curtain-left"></div>
-    <div class="curtain-right"></div>
-    <div class="curtain-content">
+    <div class="curtain-left">
+        <div class="handle left-handle" id="leftHandle"></div>
+    </div>
+    <div class="curtain-right">
+        <div class="handle right-handle" id="rightHandle"></div>
+    </div>
+
+    <div class="curtain-content" id="curtainText">
         <h1>🎭 Welcome</h1>
-        <p>Click to Open Portfolio</p>
-        <button onclick="openCurtain()">Open Curtain</button>
+        <p>Drag from both sides or click to enter</p>
     </div>
 </div>
 
@@ -184,7 +159,7 @@ body.light{background:#f5f5f5;color:#111;}
 
 <div class="header">
     <img src="profile.jpg" onerror="this.src='https://via.placeholder.com/160'" class="profile-pic">
-    <h1 id="typing"></h1>
+    <h1>Thrinadh Reddy</h1>
     <p>Aspiring Developer | Anurag University</p>
 </div>
 
@@ -192,7 +167,9 @@ body.light{background:#f5f5f5;color:#111;}
 
 <div class="card">
 <h2>About Me</h2>
-<p>I am a passionate B.Tech student interested in software development and web design.</p>
+<p>I am Thrinadh Reddy, a passionate and dedicated B.Tech student with a strong interest in software development and problem-solving. I enjoy building practical applications using Python, C programming, Data Structures, and Web Development, and I am continuously improving my technical skills.
+
+I am currently studying at Anurag University, where I am building a strong foundation in computer science and hands-on programming experience. My goal is to become a skilled software engineer and contribute to impactful real-world projects while continuously learning and growing in the field of technology.</p>
 </div>
 
 <div class="card">
@@ -210,56 +187,47 @@ body.light{background:#f5f5f5;color:#111;}
 <a href="resume.pdf" download class="btn">Download Resume</a>
 </div>
 
-<div class="card">
-<h2>Projects</h2>
-<ul>
-<li>Portfolio Website – HTML, CSS, JS</li>
-</ul>
 </div>
-
-</div>
-
-<div class="footer">© 2026 Thrinadh Reddy</div>
 
 <script>
 
+let left = document.querySelector(".curtain-left");
+let right = document.querySelector(".curtain-right");
+let curtain = document.getElementById("curtain");
+
+let progress = 0;
+let dragging = false;
+
 function openCurtain(){
-    document.getElementById('curtain').classList.add('open');
+    curtain.style.display="none";
 }
 
-const text = "Thrinadh Reddy";
-let i=0;
-function type(){
-    if(i<text.length){
-        document.getElementById("typing").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(type,100);
-    }
+function setCurtain(p){
+    left.style.transform = `translateX(${-p}%)`;
+    right.style.transform = `translateX(${p}%)`;
 }
-type();
+
+function startDrag(){ dragging=true; }
+function stopDrag(){ dragging=false; if(progress>40) openCurtain(); }
+
+function move(e){
+    if(!dragging) return;
+    let x = e.clientX || e.touches[0].clientX;
+    progress = (x / window.innerWidth) * 100;
+    setCurtain(progress);
+}
+
+document.addEventListener("mousedown",startDrag);
+document.addEventListener("mouseup",stopDrag);
+document.addEventListener("mousemove",move);
+
+document.addEventListener("touchstart",startDrag);
+document.addEventListener("touchend",stopDrag);
+document.addEventListener("touchmove",move);
 
 function toggleMode(){
     document.body.classList.toggle("light");
 }
-
-const canvas=document.getElementById("rain");
-const ctx=canvas.getContext("2d");
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-let drops=[];
-for(let x=0;x<200;x++) drops[x]=Math.random()*canvas.height;
-
-function drawRain(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle="rgba(174,194,224,0.5)";
-    for(let i=0;i<drops.length;i++){
-        ctx.fillRect(i*10,drops[i],2,10);
-        drops[i]+=6;
-        if(drops[i]>canvas.height) drops[i]=0;
-    }
-}
-setInterval(drawRain,30);
 
 </script>
 
