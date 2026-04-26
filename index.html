@@ -11,6 +11,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', sans-serif;
+    cursor: none;
 }
 
 body {
@@ -19,11 +20,46 @@ body {
     overflow-x: hidden;
 }
 
+/* Custom Cursor */
+.cursor {
+    width: 15px;
+    height: 15px;
+    background: #00c6ff;
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+
 canvas {
     position: fixed;
     top: 0;
     left: 0;
     z-index: -1;
+}
+
+/* Curtain */
+.curtain {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #000428, #004e92);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.curtain.open {
+    animation: openCurtain 1.5s forwards;
+}
+
+@keyframes openCurtain {
+    0% {transform: scaleX(1);} 
+    100% {transform: scaleX(0); opacity:0;}
 }
 
 .header {
@@ -85,6 +121,13 @@ ul {
     margin-top: 8px;
 }
 
+.social a {
+    display: inline-block;
+    margin: 10px;
+    color: #00c6ff;
+    text-decoration: none;
+}
+
 .footer {
     text-align: center;
     padding: 20px;
@@ -95,76 +138,66 @@ ul {
 
 <body>
 
+<div class="cursor" id="cursor"></div>
+
+<div class="curtain" id="curtain">Click to Enter</div>
+
 <canvas id="rain"></canvas>
 
 <div class="header">
-    <!-- 🔥 Replace 'myphoto.jpg' with your uploaded image name -->
     <img src="myphoto.jpg" alt="Profile Photo">
-
     <h1>Thrinadh Reddy</h1>
     <p>Aspiring Developer | Anurag University</p>
 </div>
 
 <div class="container">
 
-    <div class="card">
-        <h2>About Me</h2>
-        <p>
-            I am Thrinadh Reddy, a passionate programmer skilled in Python,
-            C programming, and Data Structures. I enjoy solving problems and
-            building efficient solutions.
-        </p>
-        <p class="caption">"Consistency builds excellence."</p>
-    </div>
+<div class="card">
+    <h2>About Me</h2>
+    <p>I am Thrinadh Reddy, a passionate programmer skilled in Python, C programming, and Data Structures.</p>
+</div>
 
-    <div class="card">
-        <h2>Education</h2>
-        <ul>
-            <li>10th CGPA: 9.8</li>
-            <li>Intermediate: 95%</li>
-            <li>Currently studying at Anurag University</li>
-        </ul>
+<div class="card">
+    <h2>Social Links</h2>
+    <div class="social">
+        <a href="https://instagram.com/thrinadh_reddy_challa" target="_blank">Instagram</a>
+        <a href="#" target="_blank">LinkedIn</a>
     </div>
+</div>
 
-    <div class="card">
-        <h2>Skills</h2>
-        <ul>
-            <li>Python Programming</li>
-            <li>C Programming</li>
-            <li>Data Structures & Algorithms</li>
-        </ul>
-        <p class="caption">"Strong fundamentals create powerful developers."</p>
-    </div>
-
-    <div class="card">
-        <h2>Projects</h2>
-        <ul>
-            <li>Portfolio Website</li>
-            <li>Basic Data Structure Implementations</li>
-        </ul>
-    </div>
-
-    <div class="card">
-        <h2>Contact</h2>
-        <p>Phone: 8019553107</p>
-        <p>Email: thrinadhreddy299@email.com</p>
-    </div>
+<div class="card">
+    <h2>Contact</h2>
+    <p>Phone: 8019553107</p>
+    <p>Email: thrinadhreddy299@email.com</p>
+</div>
 
 </div>
 
 <div class="footer">
-    <p>© 2026 Thrinadh Reddy</p>
+<p>© 2026 Thrinadh Reddy</p>
 </div>
 
 <script>
+
+/* Curtain */
+document.getElementById("curtain").onclick = function() {
+    this.classList.add("open");
+};
+
+/* Custom Cursor */
+const cursor = document.getElementById("cursor");
+document.addEventListener("mousemove", e => {
+    cursor.style.top = e.clientY + "px";
+    cursor.style.left = e.clientX + "px";
+});
+
+/* Rain */
 const canvas = document.getElementById("rain");
 const ctx = canvas.getContext("2d");
-
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let rainDrops = [];
-
 for (let i = 0; i < 100; i++) {
     rainDrops.push({
         x: Math.random() * canvas.width,
@@ -196,7 +229,9 @@ function drawRain() {
 }
 
 setInterval(drawRain, 30);
+
 </script>
 
 </body>
 </html>
+
