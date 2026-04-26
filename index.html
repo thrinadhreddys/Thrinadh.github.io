@@ -1,10 +1,8 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thrinadh Reddy Portfolio</title>
 
 <style>
@@ -21,7 +19,7 @@ body{
     overflow-x:hidden;
 }
 
-/* BUBBLES BACKGROUND */
+/* BUBBLES */
 #bubbles{
     position:fixed;
     width:100%;
@@ -36,12 +34,12 @@ body{
     bottom:-100px;
     background:rgba(255,255,255,0.15);
     border-radius:50%;
-    animation:rise 10s infinite ease-in;
+    animation:rise 10s infinite linear;
 }
 
 @keyframes rise{
     0%{transform:translateY(0);opacity:0;}
-    30%{opacity:1;}
+    20%{opacity:1;}
     100%{transform:translateY(-110vh);opacity:0;}
 }
 
@@ -59,9 +57,7 @@ body{
     width:50%;
     height:100%;
     background:linear-gradient(135deg,#ff4fa3,#ff77c6,#ff4fa3);
-    box-shadow:inset 0 0 50px rgba(0,0,0,0.4);
     transition:1s ease;
-    position:relative;
 }
 
 .curtain-content{
@@ -69,20 +65,31 @@ body{
     width:100%;
     text-align:center;
     top:40%;
-    transition:0.5s;
 }
 
-.toggle{
-    position:fixed;
-    top:20px;
-    right:20px;
-    background:#00c6ff;
-    padding:10px 15px;
+.curtain-content button{
+    padding:10px 20px;
+    border:none;
     border-radius:20px;
     cursor:pointer;
-    z-index:999;
 }
 
+/* OPEN */
+.curtain.open .curtain-left{
+    transform:translateX(-100%);
+}
+
+.curtain.open .curtain-right{
+    transform:translateX(100%);
+}
+
+.curtain.open .curtain-content{
+    opacity:0;
+    transition:0.5s;
+    pointer-events:none;
+}
+
+/* HEADER */
 .header{
     text-align:center;
     padding:60px 20px;
@@ -95,6 +102,7 @@ body{
     border:4px solid white;
 }
 
+/* CARD */
 .container{
     width:85%;
     margin:auto;
@@ -124,13 +132,15 @@ a{color:#00c6ff;}
 <div class="curtain" id="curtain">
     <div class="curtain-left"></div>
     <div class="curtain-right"></div>
+
     <div class="curtain-content">
         <h1>🎭 Welcome</h1>
-        <p>Open Curtain to Enter</p>
-        <button onclick="openCurtain()">Enter</button>
+        <p>Enter Portfolio</p>
+        <button onclick="openCurtain()">Open</button>
     </div>
 </div>
 
+<!-- MAIN PAGE -->
 <div class="header">
     <img src="profile.jpg" onerror="this.src='https://via.placeholder.com/160'" class="profile-pic">
     <h1>Thrinadh Reddy</h1>
@@ -141,7 +151,11 @@ a{color:#00c6ff;}
 
 <div class="card">
 <h2>About Me</h2>
-<p>I am Thrinadh Reddy, a passionate B.Tech student interested in software development, Python, C programming, Data Structures, and Web Development. I aim to become a skilled software engineer and build impactful real-world projects.</p>
+<p>
+I am Thrinadh Reddy, a passionate B.Tech student with strong interest in software development and problem-solving.  
+I work with Python, C programming, Data Structures, and Web Development.  
+My goal is to become a skilled software engineer and contribute to impactful real-world projects.
+</p>
 </div>
 
 <div class="card">
@@ -158,7 +172,11 @@ a{color:#00c6ff;}
 <h2>Contact</h2>
 <p>📞 Mobile: 8019553107</p>
 <p>📸 Instagram: @your_instagram</p>
-<p>💼 LinkedIn: <a href="https://www.linkedin.com/in/thrinadh-reddy-276a0b" target="_blank">View Profile</a></p>
+<p>💼 LinkedIn: 
+<a href="https://www.linkedin.com/in/thrinadh-reddy-276a0b" target="_blank">
+View Profile
+</a>
+</p>
 <p>📧 Email: thrinadhreddy@example.com</p>
 </div>
 
@@ -166,25 +184,30 @@ a{color:#00c6ff;}
 
 <script>
 
+/* CURTAIN */
 function openCurtain(){
-    document.getElementById('curtain').style.display='none';
+    document.getElementById("curtain").classList.add("open");
+    setTimeout(()=>{
+        document.getElementById("curtain").style.display="none";
+    },1200);
 }
 
-// BUBBLES
+/* BUBBLES */
 const bubbleContainer = document.getElementById("bubbles");
+
 function createBubble(){
-    const bubble = document.createElement("div");
-    bubble.classList.add("bubble");
+    const b = document.createElement("div");
+    b.classList.add("bubble");
 
     let size = Math.random()*60+10;
-    bubble.style.width = size+"px";
-    bubble.style.height = size+"px";
-    bubble.style.left = Math.random()*100+"vw";
-    bubble.style.animationDuration = Math.random()*5+5+"s";
+    b.style.width = size+"px";
+    b.style.height = size+"px";
+    b.style.left = Math.random()*100+"vw";
+    b.style.animationDuration = (Math.random()*5+5)+"s";
 
-    bubbleContainer.appendChild(bubble);
+    bubbleContainer.appendChild(b);
 
-    setTimeout(()=>{bubble.remove();},10000);
+    setTimeout(()=>b.remove(),10000);
 }
 
 setInterval(createBubble,300);
@@ -193,3 +216,4 @@ setInterval(createBubble,300);
 
 </body>
 </html>
+
