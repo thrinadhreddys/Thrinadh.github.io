@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,13 +21,28 @@ body{
     overflow-x:hidden;
 }
 
-#rain{
+/* BUBBLES BACKGROUND */
+#bubbles{
     position:fixed;
-    top:0;
-    left:0;
     width:100%;
     height:100%;
-    z-index:-1;
+    top:0;
+    left:0;
+    z-index:-2;
+}
+
+.bubble{
+    position:absolute;
+    bottom:-100px;
+    background:rgba(255,255,255,0.15);
+    border-radius:50%;
+    animation:rise 10s infinite ease-in;
+}
+
+@keyframes rise{
+    0%{transform:translateY(0);opacity:0;}
+    30%{opacity:1;}
+    100%{transform:translateY(-110vh);opacity:0;}
 }
 
 /* CURTAIN */
@@ -44,23 +60,8 @@ body{
     height:100%;
     background:linear-gradient(135deg,#ff4fa3,#ff77c6,#ff4fa3);
     box-shadow:inset 0 0 50px rgba(0,0,0,0.4);
-    transition:0.3s;
+    transition:1s ease;
     position:relative;
-}
-
-/* curtain texture */
-.curtain-left::before,
-.curtain-right::before{
-    content:"";
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:repeating-linear-gradient(
-        90deg,
-        rgba(0,0,0,0.15),
-        rgba(0,0,0,0.15) 10px,
-        rgba(255,255,255,0.08) 20px
-    );
 }
 
 .curtain-content{
@@ -68,23 +69,8 @@ body{
     width:100%;
     text-align:center;
     top:40%;
-    z-index:2;
     transition:0.5s;
 }
-
-.handle{
-    position:absolute;
-    width:20px;
-    height:80px;
-    background:#fff;
-    border-radius:10px;
-    top:50%;
-    transform:translateY(-50%);
-    cursor:grab;
-}
-
-.left-handle{ right:10px; }
-.right-handle{ left:10px; }
 
 .toggle{
     position:fixed;
@@ -124,38 +110,26 @@ body{
 
 h2{color:#00c6ff;}
 
-.btn{
-    display:inline-block;
-    padding:10px 20px;
-    background:#00c6ff;
-    border-radius:20px;
-    color:white;
-    text-decoration:none;
-}
+a{color:#00c6ff;}
 
 </style>
 </head>
 
 <body>
 
-<canvas id="rain"></canvas>
+<!-- BUBBLES -->
+<div id="bubbles"></div>
 
 <!-- CURTAIN -->
 <div class="curtain" id="curtain">
-    <div class="curtain-left">
-        <div class="handle left-handle" id="leftHandle"></div>
-    </div>
-    <div class="curtain-right">
-        <div class="handle right-handle" id="rightHandle"></div>
-    </div>
-
-    <div class="curtain-content" id="curtainText">
+    <div class="curtain-left"></div>
+    <div class="curtain-right"></div>
+    <div class="curtain-content">
         <h1>🎭 Welcome</h1>
-        <p>Drag from both sides or click to enter</p>
+        <p>Open Curtain to Enter</p>
+        <button onclick="openCurtain()">Enter</button>
     </div>
 </div>
-
-<div class="toggle" onclick="toggleMode()">🌙 Toggle Mode</div>
 
 <div class="header">
     <img src="profile.jpg" onerror="this.src='https://via.placeholder.com/160'" class="profile-pic">
@@ -167,9 +141,7 @@ h2{color:#00c6ff;}
 
 <div class="card">
 <h2>About Me</h2>
-<p>I am Thrinadh Reddy, a passionate and dedicated B.Tech student with a strong interest in software development and problem-solving. I enjoy building practical applications using Python, C programming, Data Structures, and Web Development, and I am continuously improving my technical skills.
-
-I am currently studying at Anurag University, where I am building a strong foundation in computer science and hands-on programming experience. My goal is to become a skilled software engineer and contribute to impactful real-world projects while continuously learning and growing in the field of technology.</p>
+<p>I am Thrinadh Reddy, a passionate B.Tech student interested in software development, Python, C programming, Data Structures, and Web Development. I aim to become a skilled software engineer and build impactful real-world projects.</p>
 </div>
 
 <div class="card">
@@ -183,59 +155,39 @@ I am currently studying at Anurag University, where I am building a strong found
 </div>
 
 <div class="card">
-<h2>Resume</h2>
-<a href="resume.pdf" download class="btn">Download Resume</a>
-</div>
-
-</div>
-
-<div class="card">
 <h2>Contact</h2>
-<p>Mobile: 8019553107</p>
-<p>Instagram: @your_instagram
-<p>LinkedIn: https://www.linkedin.com/in/thrinadh-reddy-276a0b</p></p>
-<p>Email: thrinadhreddy@example.com</p>
+<p>📞 Mobile: 8019553107</p>
+<p>📸 Instagram: @your_instagram</p>
+<p>💼 LinkedIn: <a href="https://www.linkedin.com/in/thrinadh-reddy-276a0b" target="_blank">View Profile</a></p>
+<p>📧 Email: thrinadhreddy@example.com</p>
+</div>
+
 </div>
 
 <script>
 
-let left = document.querySelector(".curtain-left");
-let right = document.querySelector(".curtain-right");
-let curtain = document.getElementById("curtain");
-
-let progress = 0;
-let dragging = false;
-
 function openCurtain(){
-    curtain.style.display="none";
+    document.getElementById('curtain').style.display='none';
 }
 
-function setCurtain(p){
-    left.style.transform = `translateX(${-p}%)`;
-    right.style.transform = `translateX(${p}%)`;
+// BUBBLES
+const bubbleContainer = document.getElementById("bubbles");
+function createBubble(){
+    const bubble = document.createElement("div");
+    bubble.classList.add("bubble");
+
+    let size = Math.random()*60+10;
+    bubble.style.width = size+"px";
+    bubble.style.height = size+"px";
+    bubble.style.left = Math.random()*100+"vw";
+    bubble.style.animationDuration = Math.random()*5+5+"s";
+
+    bubbleContainer.appendChild(bubble);
+
+    setTimeout(()=>{bubble.remove();},10000);
 }
 
-function startDrag(){ dragging=true; }
-function stopDrag(){ dragging=false; if(progress>40) openCurtain(); }
-
-function move(e){
-    if(!dragging) return;
-    let x = e.clientX || e.touches[0].clientX;
-    progress = (x / window.innerWidth) * 100;
-    setCurtain(progress);
-}
-
-document.addEventListener("mousedown",startDrag);
-document.addEventListener("mouseup",stopDrag);
-document.addEventListener("mousemove",move);
-
-document.addEventListener("touchstart",startDrag);
-document.addEventListener("touchend",stopDrag);
-document.addEventListener("touchmove",move);
-
-function toggleMode(){
-    document.body.classList.toggle("light");
-}
+setInterval(createBubble,300);
 
 </script>
 
